@@ -28,7 +28,7 @@ class StagingCommons {
 
     /** Returns the document path of the document with the given name. */
     static String documentPath(String documentName) {
-        return "/document/v1/staging/title/docid/" + encode(documentName, UTF_8);
+        return "/document/v1/mynamespace/music/docid/" + encode(documentName, UTF_8);
     }
 
     /** Reads and returns the contents of the JSON test resource with the given name. */
@@ -43,20 +43,20 @@ class StagingCommons {
 
     /** Returns static document ID paths and document bytes for the three static staging test documents. */
     static Map<String, byte[]> documentsByPath() {
-        return Stream.of("Title1",
-                         "Title2",
-                         "Title3")
+        return Stream.of("A-Head-Full-of-Dreams",
+                         "Hardwired...To-Self-Destruct",
+                         "Love-Is-Here-To-Stay")
                      .collect(toUnmodifiableMap(StagingCommons::documentPath,
                                                 StagingCommons::readDocumentResource));
     }
 
-    /** Warm-up query matching all "music" documents — high timeout as the fresh container needs to warm up. */
+    /** Warm-up query matching all "music" documents — high timeout as the fresh container needs to warm up. */
     static Map<String, String> warmupQueryForAllDocuments() {
-        return Map.of("yql", "SELECT * FROM SOURCES * WHERE sddocname CONTAINS 'title'", "timeout", "5s");
+        return Map.of("yql", "SELECT * FROM music WHERE true", "timeout", "10s");
     }
 
-    static Map<String, String> queryForTitles() {
-        return Map.of("yql", "SELECT * FROM SOURCES * WHERE text contains 'generic'");
+    static Map<String, String> queryForArtist() {
+        return Map.of("yql", "SELECT * FROM music WHERE true");
     }
 
     /** Verifies the static staging documents are searchable, ranked correctly, and render as expected. */
@@ -64,10 +64,10 @@ class StagingCommons {
         warmup();
 
         // Verify that the cluster filters and ranks documents as expected, prior to upgrade.
-        HttpResponse<String> queryResponse = container().send(container().request("/search/", queryForTitles()));
+        HttpResponse<String> queryResponse = container().send(container().request("/search/", queryForArtist()));
         assertEquals(200, queryResponse.statusCode());
         JsonNode root = mapper.readTree(queryResponse.body()).get("root");
-        assertEquals(2, root.get("fields").get("totalCount").asLong());
+        assertEquals(3, root.get("fields").get("totalCount").asLong());
     }
 
     private static void warmup() throws IOException {

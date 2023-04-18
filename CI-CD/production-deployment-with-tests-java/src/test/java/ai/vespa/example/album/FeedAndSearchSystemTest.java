@@ -29,22 +29,23 @@ class FeedAndSearchSystemTest {
 
     @Test
     void feedAndSearch() throws IOException {
-        String documentPath = "/document/v1/joins/title/docid/test1";
-        String document = "{\n" +
-                          "    \"fields\": {\n" +
-                          "         \"text\": \"Sample text\"\n" +
-                          "    }\n" +
-                          "}\n";
+        String documentPath = "/document/v1/mynamespace/music/docid/test1";
+        String deleteAll = "/document/v1/mynamespace/music/docid?selection=true&cluster=music";
+        String document = """
+            {
+                "fields": {
+                    "artist": "Coldplay"
+                }
+            }""";
+        String yql = "SELECT * FROM music WHERE artist CONTAINS 'coldplay'";
 
-        String yql = "SELECT * FROM title WHERE text CONTAINS 'text'";
-
-        HttpResponse<String> deleteResult = endpoint.send(endpoint.request(documentPath).DELETE());
+        HttpResponse<String> deleteResult = endpoint.send(endpoint.request(deleteAll).DELETE());
         assertEquals(200, deleteResult.statusCode());
 
         // the first query needs a higher timeout than the default 500ms, to warm up the code
         HttpResponse<String> emptyResult = endpoint.send(endpoint.request("/search/",
                                                                           Map.of("yql", yql,
-                                                                                 "timeout", "5s")));
+                                                                                 "timeout", "10s")));
         assertEquals(200, emptyResult.statusCode());
         assertEquals(0, new ObjectMapper().readTree(emptyResult.body())
                 .get("root").get("fields").get("totalCount").asLong());
@@ -59,9 +60,4 @@ class FeedAndSearchSystemTest {
         assertEquals(1, new ObjectMapper().readTree(searchResult.body())
                 .get("root").get("fields").get("totalCount").asLong());
     }
-
-    // Add more tests, for inspiration use
-    // https://github.com/vespa-engine/sample-apps/tree/3a05197d549bf36990651636573a1bd810b86c4c/basic-search-hosted and
-    // https://github.com/vespa-engine/sample-apps/tree/e691b706d84b73caa3f5a595ae6c91388a4c2ca0/basic-search-java
-
 }
