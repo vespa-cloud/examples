@@ -7,4 +7,4 @@
 A minimal Vespa Cloud application for deployment into a Production zone -
 with basic tests 
 
-Se prod deployment doc <!-- ToDo: fix -->
+See [Vespa Cloud Automated Deployments](https://cloud.vespa.ai/en/automated-deployments) for details.
