@@ -2,14 +2,50 @@
 
 ![Vespa Cloud logo](https://cloud.vespa.ai/assets/logos/vespa-cloud-logo-full-black.png)
 
-# Vespa Cloud sample applications - Production Deployment with Java Tests
+# Production Deployment with Java Tests
 
-A minimal Vespa Cloud application for deployment into a Production zone - with basic Java-tests
+A minimal Vespa Cloud application for deployment into a Production zone - with basic Java-tests.
 
-See [Vespa Cloud Automated Deployments](https://cloud.vespa.ai/en/automated-deployments) for details.
+An application using Java test code must be deployed using the procedure for
+[production deployment with components](http://localhost:4000/en/production-deployment#production-deployment-with-components) -
+summary:
 
-Test using:
+```
+vespa config set target cloud
+vespa config set application mytenant.myapp.myinstance
+vespa auth login
+vespa auth api-key
+mvn vespa:compileVersion -Dtenant=kkraunetenant1 -Dapplication=myapp
+cat target/vespa.compile.version
+mvn -U clean package -Dvespa.compile.version="$(cat target/vespa.compile.version)"
+vespa prod submit
+```
 
-    mvn test -D test.categories=system -D vespa.test.config=ext/test-config.json 
-    mvn test -D test.categories=staging-setup -D vespa.test.config=ext/test-config.json
-    mvn test -D test.categories=staging -D vespa.test.config=ext/test-config.json 
+
+## Developing system and staging tests
+Develop tests using an instance in the Dev zone.
+Use the Console and upload target/application.zip built in the steps above - use "default" instance name.
+
+    mvn test -D test.categories=system \
+             -D vespa.test.config=ext/test-config.json \
+             -D dataPlaneCertificateFile=data-plane-public-cert.pem \
+             -D dataPlaneKeyFile=data-plane-private-key.pem
+
+    mvn test -D test.categories=staging-setup \
+             -D vespa.test.config=ext/test-config.json \
+             -D dataPlaneCertificateFile=data-plane-public-cert.pem \
+             -D dataPlaneKeyFile=data-plane-private-key.pem
+
+    mvn test -D test.categories=staging \
+             -D vespa.test.config=ext/test-config.json \
+             -D dataPlaneCertificateFile=data-plane-public-cert.pem \
+             -D dataPlaneKeyFile=data-plane-private-key.pem
+
+One can also use a local instance:
+
+    mvn test -D test.categories=system -D vespa.test.config=ext/test-config-local.json
+    mvn test -D test.categories=staging-setup -D vespa.test.config=ext/test-config-local.json
+    mvn test -D test.categories=staging -D vespa.test.config=ext/test-config-local.json
+
+See [Vespa Cloud Automated Deployments](https://cloud.vespa.ai/en/automated-deployments)
+for an overview of production deployments.
