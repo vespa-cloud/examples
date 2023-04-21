@@ -8,7 +8,7 @@ on:
     branches: [ main ]
 
 env:
-  API_KEY: ${{ secrets.TMPKEY }}
+  VESPA_CLI_API_KEY: ${{ secrets.TMPKEY }}
   TENANT_NAME: ${{ secrets.TENANT_NAME }}
   APP_NAME_TESTS: ${{ secrets.APP_NAME_TESTS }}
   INSTANCE_NAME_TESTS: ${{ secrets.INSTANCE_NAME_TESTS }}
@@ -32,7 +32,6 @@ jobs:
     - name: Deploy to Vespa Cloud
       working-directory: CI-CD/production-deployment-with-tests
       run: |
-        export VESPA_CLI_API_KEY="${API_KEY}"
         ./vespa config set target cloud
         ./vespa config set application "$TENANT_NAME.$APP_NAME_TESTS.$INSTANCE_NAME_TESTS"
         ./vespa prod submit
