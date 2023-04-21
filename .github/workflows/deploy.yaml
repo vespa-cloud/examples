@@ -8,7 +8,7 @@ on:
     branches: [ main ]
 
 env:
-  VESPA_CLI_API_KEY: ${{ secrets.VESPA_TEAM_VESPACLOUD_DOCSEARCH_API_KEY }}
+  API_KEY: ${{ secrets.VESPA_TEAM_VESPACLOUD_DOCSEARCH_API_KEY }}
   TENANT_NAME: ${{ secrets.TENANT_NAME }}
   APP_NAME_TESTS: ${{ secrets.APP_NAME_TESTS }}
   INSTANCE_NAME_TESTS: ${{ secrets.INSTANCE_NAME_TESTS }}
@@ -34,6 +34,7 @@ jobs:
     - name: Deploy to Vespa Cloud
       working-directory: CI-CD/production-deployment-with-tests
       run: |
+        export VESPA_CLI_API_KEY=API_KEY
         vespa-cli_8.154.35_linux_amd64/bin/vespa config set target cloud
         vespa-cli_8.154.35_linux_amd64/bin/vespa config set application "${TENANT_NAME}.${APP_NAME_TESTS}.${INSTANCE_NAME_TESTS}"
         vespa-cli_8.154.35_linux_amd64/bin/vespa prod submit
