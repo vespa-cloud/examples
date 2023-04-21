@@ -12,7 +12,6 @@ env:
   TENANT_NAME: ${{ secrets.TENANT_NAME }}
   APP_NAME_TESTS: ${{ secrets.APP_NAME_TESTS }}
   INSTANCE_NAME_TESTS: ${{ secrets.INSTANCE_NAME_TESTS }}
-  VESPA_CLI: vespa-cli_8.154.35_linux_amd64/bin/vespa
 
 jobs:
   deploy-production-deployment-with-tests:
@@ -28,13 +27,14 @@ jobs:
         apt update && apt -y install curl
         curl -SsLo vespa-cli.tar.gz https://github.com/vespa-engine/vespa/releases/download/v8.154.35/vespa-cli_8.154.35_linux_amd64.tar.gz
         tar -xvf vespa-cli.tar.gz
-        find .
         pwd
+        ln -fs vespa-cli_8.154.35_linux_amd64/bin/vespa
+        find .
 
     - name: Deploy to Vespa Cloud
       working-directory: CI-CD/production-deployment-with-tests
       run: |
-        export VESPA_CLI_API_KEY=API_KEY
+        export VESPA_CLI_API_KEY="${API_KEY}"
         vespa-cli_8.154.35_linux_amd64/bin/vespa config set target cloud
         vespa-cli_8.154.35_linux_amd64/bin/vespa config set application "${TENANT_NAME}.${APP_NAME_TESTS}.${INSTANCE_NAME_TESTS}"
         vespa-cli_8.154.35_linux_amd64/bin/vespa prod submit
