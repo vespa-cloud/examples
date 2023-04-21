@@ -35,6 +35,6 @@ jobs:
       working-directory: CI-CD/production-deployment-with-tests
       run: |
         export VESPA_CLI_API_KEY="${API_KEY}"
-        vespa-cli_8.154.35_linux_amd64/bin/vespa config set target cloud
-        vespa-cli_8.154.35_linux_amd64/bin/vespa config set application "${TENANT_NAME}.${APP_NAME_TESTS}.${INSTANCE_NAME_TESTS}"
-        vespa-cli_8.154.35_linux_amd64/bin/vespa prod submit
+        ./vespa config set target cloud
+        ./vespa config set application "${TENANT_NAME}.${APP_NAME_TESTS}.${INSTANCE_NAME_TESTS}"
+        ./vespa prod submit
