@@ -27,14 +27,13 @@ jobs:
         apt update && apt -y install curl
         curl -SsLo vespa-cli.tar.gz https://github.com/vespa-engine/vespa/releases/download/v8.154.35/vespa-cli_8.154.35_linux_amd64.tar.gz
         tar -xvf vespa-cli.tar.gz
-        pwd
         ln -fs vespa-cli_8.154.35_linux_amd64/bin/vespa
-        find .
 
     - name: Deploy to Vespa Cloud
       working-directory: CI-CD/production-deployment-with-tests
       run: |
         export VESPA_CLI_API_KEY="${API_KEY}"
+        echo "Names:" && echo && echo "${TENANT_NAME}.${APP_NAME_TESTS}.${INSTANCE_NAME_TESTS}" && echo
         ./vespa config set target cloud
         ./vespa config set application "${TENANT_NAME}.${APP_NAME_TESTS}.${INSTANCE_NAME_TESTS}"
         ./vespa prod submit
