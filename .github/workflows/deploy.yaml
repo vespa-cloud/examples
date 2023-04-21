@@ -7,11 +7,12 @@ on:
   push:
     branches: [ main ]
 
+# Set values as organization or repository secrets
 env:
-  VESPA_CLI_API_KEY:   ${{ secrets.TMPKEY }}
-  TENANT_NAME:         ${{ secrets.TENANT_NAME }}
-  APP_NAME_TESTS:      ${{ secrets.APP_NAME_TESTS }}
-  INSTANCE_NAME_TESTS: ${{ secrets.INSTANCE_NAME_TESTS }}
+  VESPA_CLI_API_KEY: ${{ secrets.API_KEY }}
+  TENANT_NAME:       ${{ secrets.TENANT_NAME }}
+  APP_NAME:          ${{ secrets.APP_NAME }}
+  INSTANCE_NAME:     ${{ secrets.INSTANCE_NAME }}
 
 jobs:
   deploy-production-deployment-with-tests:
@@ -32,5 +33,5 @@ jobs:
       working-directory: CI-CD/production-deployment-with-tests
       run: |
         ./vespa config set target cloud
-        ./vespa config set application "$TENANT_NAME.$APP_NAME_TESTS.$INSTANCE_NAME_TESTS"
+        ./vespa config set application "$TENANT_NAME.$APP_NAME.$INSTANCE_NAME"
         ./vespa prod submit
