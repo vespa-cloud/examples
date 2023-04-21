@@ -12,7 +12,7 @@ env:
   TENANT_NAME: ${{ secrets.TENANT_NAME }}
   APP_NAME_TESTS: ${{ secrets.APP_NAME_TESTS }}
   INSTANCE_NAME_TESTS: ${{ secrets.INSTANCE_NAME_TESTS }}
-  VESPA_CLI=vespa-cli_8.154.35_linux_amd64/bin/vespa
+  VESPA_CLI: vespa-cli_8.154.35_linux_amd64/bin/vespa
 
 jobs:
   deploy-production-deployment-with-tests:
