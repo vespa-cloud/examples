@@ -1,0 +1,38 @@
+# Copyright Yahoo. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+
+# See https://cloud.vespa.ai/en/automated-deployments for details
+
+name: Deploy an example application with HTTP Tests to production
+on:
+  push:
+    branches: [ main ]
+
+env:
+  VESPA_CLI_API_KEY: ${{ secrets.VESPA_TEAM_VESPACLOUD_DOCSEARCH_API_KEY }}
+  TENANT_NAME: ${{ secrets.TENANT_NAME }}
+  APP_NAME_TESTS: ${{ secrets.APP_NAME_TESTS }}
+  INSTANCE_NAME_TESTS: ${{ secrets.INSTANCE_NAME_TESTS }}
+
+jobs:
+  deploy-production-deployment-with-tests:
+    runs-on: ubuntu-latest
+    steps:
+
+    # Check out the source code from the repository
+    - uses: actions/checkout@v3
+
+    - name: Get Vespa CLI
+      working-directory: CI-CD/production-deployment-with-tests
+      run: |
+        apt update && apt -y install curl
+        curl -SsLo vespa-cli.tar.gz https://github.com/vespa-engine/vespa/releases/download/v8.154.35/vespa-cli_8.154.35_linux_amd64.tar.gz
+        tar -xvf vespa-cli.tar.gz
+        alias vespa=vespa-cli_8.154.35_linux_amd64/bin/vespa
+        ls -la
+
+    - name: Deploy to Vespa Cloud
+      working-directory: CI-CD/production-deployment-with-tests
+      run: |
+        vespa config set target cloud
+        vespa config set application "${TENANT_NAME}.${APP_NAME_TESTS}.${INSTANCE_NAME_TESTS}"
+        vespa prod submit
