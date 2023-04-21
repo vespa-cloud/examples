@@ -8,9 +8,9 @@ on:
     branches: [ main ]
 
 env:
-  VESPA_CLI_API_KEY: ${{ secrets.TMPKEY }}
-  TENANT_NAME: ${{ secrets.TENANT_NAME }}
-  APP_NAME_TESTS: ${{ secrets.APP_NAME_TESTS }}
+  VESPA_CLI_API_KEY:   ${{ secrets.TMPKEY }}
+  TENANT_NAME:         ${{ secrets.TENANT_NAME }}
+  APP_NAME_TESTS:      ${{ secrets.APP_NAME_TESTS }}
   INSTANCE_NAME_TESTS: ${{ secrets.INSTANCE_NAME_TESTS }}
 
 jobs:
@@ -21,13 +21,12 @@ jobs:
     # Check out the source code from the repository
     - uses: actions/checkout@v3
 
-    - name: Get Vespa CLI
+    - name: Get Vespa CLI - update to later versions as needed
       working-directory: CI-CD/production-deployment-with-tests
       run: |
         apt update && apt -y install curl
         curl -SsLo vespa-cli.tar.gz https://github.com/vespa-engine/vespa/releases/download/v8.154.35/vespa-cli_8.154.35_linux_amd64.tar.gz
-        tar -xvf vespa-cli.tar.gz
-        ln -fs vespa-cli_8.154.35_linux_amd64/bin/vespa
+        tar -xvf vespa-cli.tar.gz && ln -fs vespa-cli_8.154.35_linux_amd64/bin/vespa
 
     - name: Deploy to Vespa Cloud
       working-directory: CI-CD/production-deployment-with-tests
