@@ -35,6 +35,5 @@ jobs:
         export VESPA_CLI_API_KEY="${API_KEY}"
         echo "Names:" && echo && echo "${TENANT_NAME}.${APP_NAME_TESTS}.${INSTANCE_NAME_TESTS}" && echo
         ./vespa config set target cloud
-        #./vespa config set application "${TENANT_NAME}.${APP_NAME_TESTS}.${INSTANCE_NAME_TESTS}"
         ./vespa config set application vespa-team.myapp.myinstance
         ./vespa prod submit
