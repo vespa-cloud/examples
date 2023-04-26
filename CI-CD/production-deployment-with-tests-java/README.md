@@ -7,8 +7,8 @@
 A minimal Vespa Cloud application for deployment into a Production zone - with basic Java-tests.
 
 An application using Java test code must be deployed using the procedure for
-[production deployment with components](http://localhost:4000/en/production-deployment#production-deployment-with-components) -
-summary:
+[production deployment with components](https://cloud.vespa.ai/en/production-deployment#production-deployment-with-components) -
+steps:
 
 ```
 vespa config set target cloud
@@ -24,7 +24,7 @@ vespa prod submit
 
 ## Developing system and staging tests
 Develop tests using an instance in the Dev zone.
-Use the Console and upload target/application.zip built in the steps above - use "default" instance name.
+Use the Console and upload `target/application.zip` built in the steps above - use "default" instance name.
 
     mvn test -D test.categories=system \
              -D vespa.test.config=ext/test-config.json \
@@ -41,11 +41,12 @@ Use the Console and upload target/application.zip built in the steps above - use
              -D dataPlaneCertificateFile=data-plane-public-cert.pem \
              -D dataPlaneKeyFile=data-plane-private-key.pem
 
+
 One can also use a local instance:
 
-    mvn test -D test.categories=system -D vespa.test.config=ext/test-config-local.json
+    mvn test -D test.categories=system        -D vespa.test.config=ext/test-config-local.json
     mvn test -D test.categories=staging-setup -D vespa.test.config=ext/test-config-local.json
-    mvn test -D test.categories=staging -D vespa.test.config=ext/test-config-local.json
+    mvn test -D test.categories=staging       -D vespa.test.config=ext/test-config-local.json
 
 See [Vespa Cloud Automated Deployments](https://cloud.vespa.ai/en/automated-deployments)
 for an overview of production deployments.
