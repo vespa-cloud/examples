@@ -11,7 +11,6 @@ vespa config set target cloud
 vespa config set application mytenant.myapp.default
 vespa auth login
 vespa auth cert -f
-vespa auth api-key
 vespa prod submit
 ```
 
