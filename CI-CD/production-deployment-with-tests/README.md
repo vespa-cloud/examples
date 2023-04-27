@@ -4,6 +4,15 @@
 
 # Production Deployment with Tests
 
-A minimal Vespa Cloud application for deployment into a Production zone - with basic tests.
+A minimal Vespa Cloud application for deployment into a Production zone - with basic tests. Steps:
 
-See [Vespa Cloud Automated Deployments](https://cloud.vespa.ai/en/automated-deployments) for details.
+```shell
+vespa config set target cloud
+vespa config set application mytenant.myapp.default
+vespa auth login
+vespa auth cert -f
+vespa prod submit
+```
+
+See [Production Deployment](https://cloud.vespa.ai/en/production-deployment) for details,
+and read more about [Vespa Cloud Automated Deployments](https://cloud.vespa.ai/en/automated-deployments).
