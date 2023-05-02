@@ -14,10 +14,10 @@ steps:
 vespa config set target cloud
 vespa config set application mytenant.myapp.myinstance
 vespa auth login
-vespa auth api-key
+mvn clean
+vespa auth cert -f
 mvn vespa:compileVersion -Dtenant=mytenant -Dapplication=myapp
-cat target/vespa.compile.version
-mvn -U clean package -Dvespa.compile.version="$(cat target/vespa.compile.version)"
+mvn -U package -Dvespa.compile.version="$(cat target/vespa.compile.version)"
 vespa prod submit
 ```
 
