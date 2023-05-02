@@ -9,5 +9,7 @@ Vespa Cloud supports two kinds of CD tests:
 * [production-deployment-with-tests](production-deployment-with-tests)
 * [production-deployment-with-tests-java](production-deployment-with-tests-java)
 
+![Illustration of system and staging tests](https://cloud.vespa.ai/assets/deployment-with-system-test.png)
+
 Read more about
 [Vespa Cloud Automated Deployments](https://cloud.vespa.ai/en/automated-deployments).
