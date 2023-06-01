@@ -11,7 +11,7 @@ vespa config set target cloud
 vespa config set application mytenant.myapp.default
 vespa auth login
 vespa auth cert -f
-vespa prod submit
+vespa prod deploy
 ```
 
 See [Production Deployment](https://cloud.vespa.ai/en/production-deployment) for details,
