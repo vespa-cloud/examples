@@ -18,7 +18,7 @@ mvn clean
 vespa auth cert -f
 mvn vespa:compileVersion -Dtenant=mytenant -Dapplication=myapp
 mvn -U package -Dvespa.compile.version="$(cat target/vespa.compile.version)"
-vespa prod submit
+vespa prod deploy
 ```
 
 

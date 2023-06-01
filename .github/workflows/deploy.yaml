@@ -36,4 +36,4 @@ jobs:
       run: |
         ./vespa config set target cloud
         ./vespa config set application "$TENANT_NAME.$APP_NAME.$INSTANCE_NAME"
-        ./vespa prod submit
+        ./vespa prod deploy
