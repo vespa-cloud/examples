@@ -9,7 +9,7 @@ on:
 
 # Set values as organization or repository secrets
 env:
-  VESPA_CLI_API_KEY: ${{ secrets.API_KEY }}
+  VESPA_CLI_API_KEY: ${{ secrets.VESPA_TEAM_VESPACLOUD_DOCSEARCH_API_KEY }}
   TENANT_NAME:       ${{ secrets.TENANT_NAME }}
   APP_NAME:          ${{ secrets.APP_NAME }}
   INSTANCE_NAME:     ${{ secrets.INSTANCE_NAME }}
