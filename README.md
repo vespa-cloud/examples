@@ -6,8 +6,5 @@
   <img alt="#Vespa" width="200" src="https://assets.vespa.ai/logos/Vespa-logo-dark-RGB.svg" style="margin-bottom: 25px;">
 </picture>
 
-
-# Vespa Cloud Examples
-Repository of example applications that can be deployed to Vespa Cloud:
-
-* [CI-CD](CI-CD) is a set of example applications with system and staging tests.
+This repo has moved to [CI-CD](https://github.com/vespa-engine/sample-apps/tree/master/examples/operations/CI-CD)
+and will be archived.
